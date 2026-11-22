@@ -46,5 +46,6 @@ export const REGION_ORDER: Region[] = ['EU', 'ME', 'AF', 'SA', 'EA', 'SE', 'AM',
 export const BADGE: Record<Badge, { name: string; col: RGB; means: string }> = {
   C: { name: 'CONFIRMED', col: hex('#1f6f43'), means: '2+ independent outlets' },
   O: { name: 'OFFICIAL', col: hex('#22508f'), means: 'on the record: officials, agencies, results' },
-  R: { name: 'REPORTED', col: hex('#9a5b00'), means: 'one outlet or one side' },
+  R: { name: 'REPORTED', col: hex('#7a5a12'), means: 'one major outlet' },
+  K: { name: 'CLAIM', col: hex('#c2410c'), means: 'one side, unverified' },
 };
