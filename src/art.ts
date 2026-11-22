@@ -213,9 +213,10 @@ export function icon(c: Canvas, name: string, cx: number, cy: number, s: number,
       break;
     }
     case 'volcano': {
-      c.poly(P(-50, 40, -14, -22, 14, -22, 50, 40), fg);
-      c.poly(P(-14, -22, -4, -8, 4, -14, 14, -22), acc);
-      for (const [ox, r] of [[-6, 10], [8, 13], [-2, 16]] as const) c.circle(X(ox), Y(-34 - r), r * u, mix(fg, WHITE, 0.4));
+      c.poly(P(-50, 40, -14, -18, 14, -18, 50, 40), hex('#8a5a3c'));
+      c.poly(P(-14, -18, -8, 4, -2, -6, 2, 10, 8, -4, 14, -18), acc);
+      c.poly(P(2, -10, 10, 22, 4, 26, -2, 0), acc);
+      for (const [ox, oy, r] of [[-4, -30, 10], [8, -38, 12], [-6, -46, 11]] as const) c.circle(X(ox), Y(oy), r * u, hex('#9a9a9a'));
       break;
     }
     case 'factory': {
