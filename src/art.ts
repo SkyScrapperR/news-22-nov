@@ -250,6 +250,79 @@ export function icon(c: Canvas, name: string, cx: number, cy: number, s: number,
       for (let r = 0; r < 4; r++) for (let k = 0; k < 3; k++) c.rect(X(-22 + k * 17), Y(-30 + r * 16), 10 * u, 9 * u, acc);
       break;
     }
+    case 'cricket': {
+      // bat and ball
+      c.fill([rotRect(X(-6), Y(-4), 20 * u, 70 * u, 0.55)], fg);
+      c.fill([rotRect(X(-30), Y(-40), 7 * u, 26 * u, 0.55)], mix(fg, bg, 0.3));
+      c.circle(X(26), Y(26), 14 * u, acc);
+      c.stroke(P(16, 20, 26, 26, 36, 32), 2.4 * u, WHITE);
+      break;
+    }
+    case 'sub': {
+      c.fill([ellipsePoly(X(0), Y(10), 48 * u, 13 * u)], fg);
+      c.roundRect(X(-12), Y(-14), 22 * u, 20 * u, 4 * u, fg);
+      c.rect(X(-2), Y(-26), 3 * u, 14 * u, fg);
+      c.poly(P(40, 10, 50, -2, 50, 22), fg);
+      c.stroke(P(-50, 32, -36, 28, -22, 32, -8, 28, 6, 32, 20, 28, 34, 32, 50, 28), 3.5 * u, acc);
+      break;
+    }
+    case 'exam': {
+      c.fill([rotRect(X(-10), Y(0), 52 * u, 70 * u, -0.12)], WHITE);
+      for (let i = 0; i < 5; i++) c.fill([rotRect(X(-12 + i * 1.6), Y(-22 + i * 11), 34 * u, 3.5 * u, -0.12)], mix(WHITE, fg, 0.35));
+      c.roundRect(X(14), Y(-8), 26 * u, 46 * u, 5 * u, acc);
+      c.rect(X(18), Y(-2), 18 * u, 30 * u, bg);
+      c.circle(X(27), Y(33), 2.5 * u, bg);
+      break;
+    }
+    case 'bulb': {
+      c.circle(X(0), Y(-10), 30 * u, acc);
+      c.poly(P(-16, 12, 16, 12, 12, 26, -12, 26), acc);
+      c.rect(X(-12), Y(28), 24 * u, 5 * u, fg);
+      c.rect(X(-10), Y(35), 20 * u, 5 * u, fg);
+      c.stroke(P(-8, 10, -8, -10, 0, -2, 8, -10, 8, 10), 3 * u, mix(acc, bg, 0.5));
+      break;
+    }
+    case 'cedar': {
+      c.rect(X(-46), Y(-32), 92 * u, 16 * u, acc);
+      c.rect(X(-46), Y(16), 92 * u, 16 * u, acc);
+      c.rect(X(-46), Y(-16), 92 * u, 32 * u, WHITE);
+      c.poly(P(0, -16, 14, -2, 6, -2, 18, 10, -18, 10, -6, -2, -14, -2), hex('#1e7a3c'));
+      c.rect(X(-2), Y(10), 4 * u, 6 * u, hex('#1e7a3c'));
+      break;
+    }
+    case 'torch': {
+      c.poly(P(-10, -6, 10, -6, 4, 44, -4, 44), fg);
+      c.rect(X(-14), Y(-12), 28 * u, 7 * u, fg);
+      c.poly(P(0, -50, 12, -32, 10, -18, 0, -12, -10, -18, -12, -30), acc);
+      c.poly(P(0, -36, 5, -26, 0, -16, -5, -26), [255, 214, 90]);
+      break;
+    }
+    case 'vial': {
+      c.roundRect(X(-14), Y(-30), 28 * u, 68 * u, 6 * u, WHITE);
+      c.rect(X(-14), Y(4), 28 * u, 34 * u, acc);
+      c.rect(X(-18), Y(-42), 36 * u, 12 * u, fg);
+      c.stroke(P(26, -30, 44, -48), 4 * u, fg);
+      c.stroke(P(22, -10, 44, -10), 4 * u, fg);
+      break;
+    }
+    case 'house': {
+      c.poly(P(-30, -6, 0, -32, 30, -6, 24, -6, 24, 30, -24, 30, -24, -6), fg);
+      c.rect(X(-6), Y(10), 12 * u, 20 * u, bg);
+      c.stroke(P(-40, 38, 40, 38), 4 * u, acc);
+      break;
+    }
+    case 'eye': {
+      c.fill([ellipsePoly(X(0), Y(0), 46 * u, 26 * u)], WHITE);
+      c.circle(X(0), Y(0), 18 * u, acc);
+      c.circle(X(0), Y(0), 8 * u, fg);
+      break;
+    }
+    case 'pistol': {
+      c.poly(P(-40, -16, 34, -16, 34, -2, -6, -2, -12, 30, -30, 30, -24, -2, -40, -2), fg);
+      c.rect(X(30), Y(-22), 6 * u, 6 * u, fg);
+      c.ring(X(-6), Y(6), 7 * u, 3 * u, fg);
+      break;
+    }
     default: {
       c.circle(X(0), Y(0), 36 * u, fg);
       c.circle(X(0), Y(0), 14 * u, acc);

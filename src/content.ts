@@ -1,52 +1,112 @@
-// The day's stories. (Placeholder copy for layout testing; replaced by the researched stories.)
-import type { Content, Story, Region } from './types.ts';
-
-const ph = (i: number, region: Region, lon: number, lat: number, art: string): Story => ({
-  place: ['KYIV', 'GAZA', 'LAGOS', 'DHAKA', 'TOKYO', 'JAKARTA', 'BRASÍLIA', 'SYDNEY', 'GENEVA'][i % 9],
-  cat: ['CONFLICT', 'DIPLOMACY', 'DISASTER', 'MARKETS', 'SPORT', 'CLIMATE'][i % 6],
-  region,
-  badge: (['C', 'O', 'R'] as const)[i % 3],
-  head: 'Placeholder headline of a typical length for story ' + i,
-  sum: 'A summary line that says what happened, who said it and the key figure.',
-  src: 'Reuters · AP',
-  lon,
-  lat,
-  art,
-  fact: ['6.2', '−4%', '3–1', '41', 'P1'][i % 5],
-  cap: 'MAGNITUDE',
-});
-
-const regs: Array<[Region, number, number]> = [
-  ['EU', 30.5, 50.4], ['ME', 34.4, 31.5], ['AF', 3.4, 6.5], ['SA', 90.4, 23.8], ['EA', 139.7, 35.7],
-  ['SE', 106.8, -6.2], ['AM', -47.9, -15.8], ['OC', 151.2, -33.9], ['GL', 6.1, 46.2],
-];
-const arts = ['quake', 'missile', 'drone', 'ship', 'ballot', 'flame', 'chartdown', 'ball', 'trophy', 'storm', 'flood', 'handshake', 'gavel', 'plane', 'car', 'globe'];
-const mk = (i: number) => ph(i, regs[i % 9][0], regs[i % 9][1] + (i % 4) * 2, regs[i % 9][2] - (i % 3) * 2, arts[i % arts.length]);
+// The day's stories: Sunday 22 November 2026. Every item happened, or was first reported, on that day
+// (UTC, or the local date where it happened). Times are UTC.
+import type { Content } from './types.ts';
 
 export const content: Content = {
   dayLine: 'SUNDAY 22 NOVEMBER 2026',
   masthead: 'Sunday 22 November 2026',
-  subtitle: ['Lead story one', 'lead story two', 'lead story three'],
+  subtitle: ['COP31 runs into a second day of overtime', 'Iran starts rationing power', 'Verstappen wins in Las Vegas'],
   timeline: [
-    { t: '02:14', label: 'Quake', sub: 'M6.2, 10 km deep', region: 'SE' },
-    { t: '07:30', label: 'Talks open', sub: 'Ministers meet', region: 'EU' },
-    { t: '11:05', label: 'Strike', sub: 'Two killed, army says', region: 'ME' },
-    { t: '15:00', label: 'Final', sub: 'Kick-off, 3–1 result', region: 'AM' },
-    { t: '20:45', label: 'Vote closes', sub: 'Turnout 61%', region: 'AF' },
+    { t: '01:00', label: 'Hong Kong votes', sub: 'Polls open, 9am local', region: 'EA' },
+    { t: '03:00', label: 'COP31 deadline', sub: 'Last call for objections', region: 'GL' },
+    { t: '04:00', label: 'Vegas GP starts', sub: '50 laps on the Strip', region: 'AM' },
+    { t: '06:00', label: 'COP31 plenary', sub: 'Session to approve the text', region: 'GL' },
   ],
   figures: [
-    { n: '6.2', cap: 'magnitude, placeholder', region: 'SE' },
-    { n: '41', cap: 'killed, placeholder', region: 'ME' },
-    { n: '−4%', cap: 'index fall, placeholder', region: 'EA' },
-    { n: '3–1', cap: 'final score, placeholder', region: 'AM' },
-    { n: '61%', cap: 'turnout, placeholder', region: 'AF' },
-    { n: '$2bn', cap: 'pledged, placeholder', region: 'GL' },
+    { n: '2nd', cap: 'day of COP31 overtime', region: 'GL' },
+    { n: '2 h', cap: 'power cuts at a time in Iran', region: 'ME' },
+    { n: 'P3', cap: 'Piastri, from 17th on the grid', region: 'AM' },
+    { n: '720-9', cap: 'India declare in Wellington', region: 'OC' },
+    { n: '723', cap: 'seats in Hong Kong’s EC vote', region: 'EA' },
+    { n: '97 s', cap: 'Semeru eruption, East Java', region: 'SE' },
   ],
-  heroes: [0, 1, 2].map((i) => ({ ...mk(i), banner: 'PLACE: TOPIC ' + (i + 1), chip: 'Key figure · second figure' })),
-  tiles: Array.from({ length: 10 }, (_, i) => mk(i + 3)),
-  briefs: Array.from({ length: 22 }, (_, i) => ({ ...mk(i + 13), head: 'A short brief line about story ' + (i + 14) })),
-  leftOut: 'placeholder items from the day before',
-  notYet: 'placeholder items scheduled after the UTC day',
-  corrections: 'Corrections: none yet',
-  outlets: 'Dated from the outlets’ own reports: placeholder list of outlets',
+  heroes: [
+    {
+      place: 'ANTALYA, TÜRKIYE', cat: 'CLIMATE', region: 'GL', badge: 'C',
+      banner: 'COP31: OVERTIME', chip: 'Day 2 past the deadline · ~200 nations',
+      head: 'COP31 runs into a second day of overtime over fossil fuels',
+      sum: 'Hosts table a last-minute text: objections were due by 03:00 GMT, with a session at 06:00 GMT to approve it.',
+      src: 'Al Jazeera · Reuters · DW · Sky News', lon: 30.71, lat: 36.9, art: 'cop', vals: { tag: 'APPROVAL SESSION 06:00 GMT' },
+    },
+    {
+      place: 'TEHRAN, IRAN', cat: 'WAR · ENERGY', region: 'ME', badge: 'O',
+      banner: 'IRAN: POWER CUTS', chip: 'Rationing starts Sunday',
+      head: 'Iran begins rationing electricity as war damage bites',
+      sum: 'The grid operator said cuts of about two hours a day or every two days start Sunday, blaming strikes on energy sites.',
+      src: 'Iranian state TV via Reuters · Straits Times', lon: 51.39, lat: 35.69, art: 'grid', vals: { tag: 'ABOUT 2 HOURS AT A TIME' },
+    },
+    {
+      place: 'KYIV REGION, UKRAINE', cat: 'WAR', region: 'EU', badge: 'O',
+      banner: 'UKRAINE: DRONE NIGHT', chip: 'Apartment block hit in Vyshhorod',
+      head: 'Russian drones hit a block of flats near Kyiv overnight',
+      sum: 'The Kyiv region’s governor said a five-storey building in Vyshhorod was damaged; monitors report a Ukrainian strike on Krasnodar.',
+      src: 'Kyiv region administration · Kyiv Independent', lon: 30.48, lat: 50.58, art: 'drones', vals: { tag: 'OVERNIGHT 21–22 NOV' },
+    },
+  ],
+  tiles: [
+    {
+      place: 'LAS VEGAS', cat: 'FORMULA 1', region: 'AM', badge: 'O', banner: 'VEGAS GP', fact: 'P1 VER', cap: 'NORRIS 2ND · PIASTRI 3RD',
+      head: 'Verstappen wins a thriller in Las Vegas', sum: 'Piastri climbs from 17th on the grid to third.',
+      src: 'Race result · ABC (Aus)', lon: -115.17, lat: 36.11, art: 'car', vals: { bg: '#2a1f4a', acc: '#ff5a3c' },
+    },
+    {
+      place: 'SEOUL', cat: 'EDUCATION', region: 'EA', badge: 'C', banner: 'MINISTER QUITS', fact: 'RESIGNS', cap: 'AI EXAM CHEATING',
+      head: 'S. Korea’s education chief quits over AI cheating', sum: 'President Lee accepts Choi Kyo-jin’s resignation.',
+      src: 'Reuters via CNA · Guardian', lon: 126.98, lat: 37.57, art: 'exam', vals: { bg: '#3a1f33', acc: '#ff5a3c' },
+    },
+    {
+      place: 'HONG KONG', cat: 'POLITICS', region: 'EA', badge: 'O', banner: 'HK VOTES', fact: '723', cap: 'SEATS · 856 CANDIDATES',
+      head: 'Hong Kong votes for its Election Committee', sum: 'Polls 9am–6pm in 31 contested subsectors.',
+      src: 'HKSAR government', lon: 114.17, lat: 22.3, art: 'ballot', vals: { bg: '#4a1f38', acc: '#2e9e5b' },
+    },
+    {
+      place: 'WELLINGTON', cat: 'CRICKET', region: 'OC', badge: 'O', banner: 'NZ v INDIA', fact: '720-9d', cap: 'NZ 33-1 AT TEA, DAY 4',
+      head: 'India pile up 720 and declare in Wellington', sum: 'Bumrah strikes second ball; NZ trail by 319.',
+      src: 'Reuters via CNA', lon: 174.78, lat: -41.29, art: 'cricket', vals: { bg: '#1d4a2c', acc: '#d9342b' },
+    },
+    {
+      place: 'EAST JAVA', cat: 'VOLCANO', region: 'SE', badge: 'O', banner: 'ERUPTIONS', fact: '97 s', cap: 'SEMERU, 01:51 LOCAL',
+      head: 'Semeru and Ibu volcanoes erupt hours apart', sum: 'Indonesia’s geology agency logs both blasts.',
+      src: 'Geological Agency via Antara', lon: 112.92, lat: -8.11, art: 'volcano', vals: { bg: '#33241c', acc: '#ff7a2e' },
+    },
+    {
+      place: 'CANBERRA', cat: 'DEFENCE', region: 'OC', badge: 'C', banner: 'AUKUS ROW', fact: 'REJECTS', cap: 'MARLES ON US CBO REPORT',
+      head: 'Marles rejects US budget office on AUKUS subs', sum: 'He says the pact will not weaken the US Navy.',
+      src: 'ABC (Aus) · Straits Times', lon: 149.13, lat: -35.28, art: 'sub', vals: { bg: '#14304a', acc: '#4fb3d9' },
+    },
+    {
+      place: 'ISRAEL', cat: 'POLITICS', region: 'ME', badge: 'R', banner: 'COALITION', fact: 'TALKS', cap: 'YASHAR MEETS LIKUD',
+      head: 'Eisenkot’s party sets coalition talks with Likud', sum: 'Teams due to meet on Sunday, the party says.',
+      src: 'Yashar party via NDTV', lon: 35.21, lat: 31.77, art: 'handshake', vals: { bg: '#3d2a14', acc: '#ffb347' },
+    },
+    {
+      place: 'BEIRUT', cat: 'DIPLOMACY', region: 'ME', badge: 'O', banner: 'LEBANON DAY', fact: '83 YEARS', cap: 'INDEPENDENCE DAY',
+      head: 'Lebanon marks 83 years of independence', sum: 'Aoun’s eve-of-day speech demands an Israeli pullout.',
+      src: 'Lebanese presidency · Al Jazeera', lon: 35.5, lat: 33.89, art: 'cedar', vals: { bg: '#2a2a2a', acc: '#d9342b' },
+    },
+    {
+      place: 'KRASNODAR', cat: 'WAR', region: 'EU', badge: 'R', banner: 'STRIKE CLAIM', fact: 'CLAIMED', cap: 'ROSGVARDIA REGIONAL HQ',
+      head: 'Ukraine drones reportedly hit Russian guard HQ', sum: 'Airport closed briefly; Kyiv has not commented.',
+      src: 'Monitoring channels · Kyiv Independent', lon: 38.98, lat: 45.04, art: 'drone', vals: { bg: '#1f2a44', acc: '#ff5a3c' },
+    },
+    {
+      place: 'AUSTRALIA', cat: 'HEALTH', region: 'OC', badge: 'O', banner: 'PEPTIDES', fact: 'INQUIRY', cap: 'AFTER HOSPITAL SURGE',
+      head: 'Australia orders an inquiry into peptide sales', sum: 'Butler acts on unsafe online prescribing.',
+      src: 'Health minister · ABC (Aus)', lon: 151.2, lat: -33.87, art: 'vial', vals: { bg: '#123c3a', acc: '#e0a030' },
+    },
+  ],
+  briefs: [
+    { place: 'Melbourne', cat: 'SPORT', region: 'OC', badge: 'O', head: '1956 Olympians gather at the MCG for the 70th anniversary', src: 'ABC', lon: 144.96, lat: -37.81, art: '' },
+    { place: 'Canberra', cat: 'SECURITY', region: 'OC', badge: 'R', head: 'Spy chief warns AI data centres invite foreign meddling', src: 'The Age', lon: 149.1, lat: -35.3, art: '' },
+    { place: 'Gisborne', cat: 'ACCIDENT', region: 'OC', badge: 'O', head: 'One dead as a house being moved collapses', src: 'NZ Police via RNZ', lon: 178.0, lat: -38.66, art: '' },
+    { place: 'Halmahera', cat: 'VOLCANO', region: 'SE', badge: 'O', head: 'Mount Ibu also erupts in North Maluku', src: 'Antara', lon: 127.64, lat: 1.49, art: '' },
+    { place: 'Darfur', cat: 'AID', region: 'AF', badge: 'R', head: 'Displaced families face winter as aid cuts bite', src: 'Al Jazeera', lon: 25.35, lat: 13.63, art: '' },
+    { place: 'Islamabad', cat: 'DIPLOMACY', region: 'SA', badge: 'R', head: 'Portugal’s foreign minister begins a visit', src: 'Dawn', lon: 73.05, lat: 33.68, art: '' },
+    { place: 'Antalya', cat: 'CLIMATE', region: 'GL', badge: 'C', head: 'Draft drops the $120bn adaptation goal, angering poor states', src: 'Reuters', lon: 30.7, lat: 36.9, art: '' },
+    { place: 'Parma, Ohio', cat: 'CRIME', region: 'AM', badge: 'R', head: 'Three killed in a shooting at an event venue, police say', src: 'TOI', lon: -81.72, lat: 41.4, art: '' },
+  ],
+  leftOut: 'El Chapo Isidro’s capture (Fri), Brazil supercell (Fri), Bahrain plant strike, Nigeria funeral-boat capsizing, Banten factory fire, NWSL final, Wallabies 29–26 Wales, BepiColombo at Mercury (all Sat)',
+  notYet: 'COP31’s final vote, the Hong Kong count and Sunday’s late European sport, including the ATP Finals final in Turin',
+  corrections: 'Corrections: none · COP31 text not public at press time',
+  outlets: 'Each story dated from its outlet’s own report: Al Jazeera, Reuters, DW, Sky, ABC (Aus), CNA, Straits Times, Antara, Kyiv Independent, RNZ, Dawn, gov.hk',
 };
