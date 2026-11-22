@@ -45,7 +45,8 @@ export function heroScene(c: Canvas, x: number, y: number, w: number, h: number,
       c.circle(cx, cy, r + 5, hex('#0b2238'));
       c.circle(cx, cy, r, WHITE);
       // overtime arc: from 12 round past the hour
-      const a0 = -Math.PI / 2, a1 = -Math.PI / 2 + Math.PI * 2 * 0.3;
+      // the red half is the six hours past midnight GMT: the clock reads 06:00
+      const a0 = -Math.PI / 2, a1 = Math.PI / 2;
       const pts = [cx, cy];
       for (let i = 0; i <= 24; i++) {
         const a = a0 + ((a1 - a0) * i) / 24;
@@ -56,8 +57,8 @@ export function heroScene(c: Canvas, x: number, y: number, w: number, h: number,
         const a = (k * Math.PI) / 6;
         c.line(cx + Math.cos(a) * (r - 9), cy + Math.sin(a) * (r - 9), cx + Math.cos(a) * (r - 3), cy + Math.sin(a) * (r - 3), 2.4, COL.ink);
       }
-      c.line(cx, cy, cx + Math.cos(a1) * (r - 12), cy + Math.sin(a1) * (r - 12), 4, COL.ink);
-      c.line(cx, cy, cx, cy - (r - 22), 5, COL.ink);
+      c.line(cx, cy, cx, cy + (r - 22), 5, COL.ink);
+      c.line(cx, cy, cx, cy - (r - 12), 4, COL.ink);
       c.circle(cx, cy, 4.5, acc);
       label(c, String(s.vals?.tag ?? ''), x + w - 8, y + h - 8, 10.5, COL.ink, hex('#ffd25a'), 'right');
       break;
@@ -87,13 +88,22 @@ export function heroScene(c: Canvas, x: number, y: number, w: number, h: number,
         k++;
       }
       // the focal bulb, half lit
-      const cx = x + w - 66, cy = y + 52;
-      c.circle(cx, cy, 44, mix(sky, hex('#ffd25a'), 0.12));
-      icon(c, 'bulb', cx, cy, 86, hex('#c9c9c9'), hex('#ffd25a'), sky);
-      c.clip(cx, y, cx + 60, y + h);
-      icon(c, 'bulb', cx, cy, 86, hex('#3a3f4f'), hex('#4a4f60'), sky);
+      // the focal bulb: lit on the left, dead on the right
+      const cx = x + w - 64, cy = y + 50;
+      const yel = hex('#ffd25a');
+      c.clip(x, y, cx, y + h);
+      for (let k = 0; k < 7; k++) {
+        const a = Math.PI * (0.62 + k * 0.127);
+        c.line(cx + Math.cos(a) * 40, cy + Math.sin(a) * 40, cx + Math.cos(a) * 52, cy + Math.sin(a) * 52, 3, yel);
+      }
+      c.circle(cx, cy, 33, yel);
+      c.poly([cx - 17, cy + 24, cx, cy + 24, cx, cy + 40, cx - 13, cy + 40], yel);
+      c.clip(cx, y, x + w, y + h);
+      c.circle(cx, cy, 33, hex('#3b4156'));
+      c.poly([cx, cy + 24, cx + 17, cy + 24, cx + 13, cy + 40, cx, cy + 40], hex('#3b4156'));
       c.clip(x, y, x + w, y + h);
-      c.line(cx, cy - 52, cx, cy + 36, 2.2, sky);
+      c.rect(cx - 13, cy + 42, 26, 5, hex('#9aa0b0'));
+      c.rect(cx - 11, cy + 49, 22, 5, hex('#9aa0b0'));
       label(c, String(s.vals?.tag ?? ''), x + w - 8, y + h - 8, 10.5, COL.ink, hex('#ffd25a'), 'right');
       break;
     }

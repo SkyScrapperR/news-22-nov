@@ -19,9 +19,23 @@ mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 DM Serif Display, DM Serif Text and Lato, from the Google Fonts repository, under the SIL Open Font License 1.1
 (licence texts in `fonts/`).
 
+## How it is made
+
+- `src/ttf.ts` reads the TrueType fonts (glyph outlines, composite glyphs, GPOS kerning).
+- `src/raster.ts` fills outlines with exact signed-area coverage (smooth anti-aliasing, no supersampling).
+- `src/text.ts` sets type: wrapping, auto-fit, and an overflow counter that warns instead of cutting text.
+- `src/page.ts` and `src/scenes.ts` lay out the page and draw every illustration from shapes.
+- `src/png.ts` quantises to a small palette (optimal-error median cut) and writes an indexed PNG.
+- `src/content.ts` holds the stories. The output is deterministic: two runs write identical bytes.
+
 ## Sources
 
-To be listed with the stories.
+Every story is dated from its outlet's own report and carries a badge: CONFIRMED (two or more
+independent outlets), OFFICIAL (on the record: officials, agencies, results) or REPORTED (one outlet, or a
+claim by one side). Outlets used: Al Jazeera, Reuters, AP, BBC, DW, Sky News, ABC (Australia), CNA,
+The Straits Times, Antara, Kyiv Independent, RNZ, Dawn, Hindustan Times, Times of India, HKSAR government.
+
+Map outlines: [Natural Earth](https://www.naturalearthdata.com/) 1:110m land (public domain).
 
 ---
 
