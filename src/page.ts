@@ -102,9 +102,9 @@ export function renderPage(ct: Content): Canvas {
   ct.tiles.forEach((s, i) => {
     const col = i % 5;
     const row = Math.floor(i / 5);
-    tile(c, s, 4 + i, M + col * (tw + 12), tileTop + row * 136, tw);
+    tile(c, s, 4 + i, M + col * (tw + 12), tileTop + row * 141, tw);
   });
-  const tilesEnd = tileTop + 136 + 131;
+  const tilesEnd = tileTop + 141 + 136;
 
   // 11. rule, 12. map, 13. briefs
   c.hline(M, W - M, tilesEnd + 2, 1.6, COL.ink);
@@ -281,12 +281,12 @@ function tile(c: Canvas, s: Story, n: number, x: number, y: number, w: number) {
   c.noClip();
   const kb = y + ah + 12;
   kicker(c, s, n, x, kb, w, 7.8, 6.4);
-  const hl = fitLines(F.serif, s.head, 17.5, 13.5, w - 1, 2, 'tile headline', 0, 0.75);
+  const hl = fitLines(F.serif, s.head, 20, 15, w - 1, 2, 'tile headline', 0, 0.8);
   const base = kb + hl.size + 3;
-  hl.lines.forEach((l, i) => drawText(c, F.serif, l, x, base + i * hl.size * 1.03, hl.size, COL.ink, { bold: 0.75 }));
-  const sb = kb + 17.5 + 3 + 17.5 * 1.03 + 13;
+  hl.lines.forEach((l, i) => drawText(c, F.serif, l, x, base + i * hl.size * 1.02, hl.size, COL.ink, { bold: 0.8 }));
+  const sb = kb + 20 + 3 + 20 * 1.02 + 13.5;
   const sm = s.sum ?? '';
-  const ss = fitOne(F.reg, sm, 9.3, 8.6, w, 'tile summary');
+  const ss = fitOne(F.reg, sm, 9.6, 9, w, 'tile summary');
   drawText(c, F.reg, sm, x, sb, ss, COL.soft);
 }
 

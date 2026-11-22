@@ -259,6 +259,15 @@ export function icon(c: Canvas, name: string, cx: number, cy: number, s: number,
       c.stroke(P(16, 20, 26, 26, 36, 32), 2.4 * u, WHITE);
       break;
     }
+    case 'moto': {
+      // a race motorbike leaning into a corner
+      c.ring(X(-28), Y(18), 15 * u, 6 * u, fg);
+      c.ring(X(30), Y(18), 15 * u, 6 * u, fg);
+      c.poly(P(-30, 12, -6, -12, 18, -16, 34, -4, 30, 12, 6, 4, -14, 14), fg);
+      c.poly(P(-6, -12, 2, -28, 14, -30, 18, -16), acc);
+      c.circle(X(4), Y(-34), 9 * u, acc);
+      break;
+    }
     case 'sub': {
       c.fill([ellipsePoly(X(0), Y(10), 48 * u, 13 * u)], fg);
       c.roundRect(X(-12), Y(-14), 22 * u, 20 * u, 4 * u, fg);
