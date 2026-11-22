@@ -82,21 +82,21 @@ export function renderPage(ct: Content): Canvas {
   drawText(c, F.serif, sub, W / 2, 126, ss, COL.ink, { align: 'center', slant: 0.16 });
 
   // 5. the day in UTC
-  timeline(c, ct, 133, 48);
+  timeline(c, ct, 132, 56);
 
   // 6. numbers strip
-  figures(c, ct, 186, 58);
+  figures(c, ct, 192, 66);
 
   // 7. region bar
-  regionBar(c, all, 247, 12);
+  regionBar(c, all, 262, 12);
 
   // 8. heroes
-  const heroTop = 265;
+  const heroTop = 280;
   const hw = (CW - 2 * 12) / 3;
   ct.heroes.forEach((s, i) => hero(c, s, i + 1, M + i * (hw + 12), heroTop, hw));
 
   // 9. rule + 10. tiles
-  const tileTop = 516;
+  const tileTop = 524;
   c.hline(M, W - M, tileTop - 4, 1.2, COL.ink);
   const tw = (CW - 4 * 12) / 5;
   ct.tiles.forEach((s, i) => {
@@ -139,7 +139,7 @@ function timeline(c: Canvas, ct: Content, y: number, h: number) {
     const [hh, mm] = e.t.replace('≈', '').split(':').map(Number);
     return { e, x: ax0 + ((ax1 - ax0) * (hh + mm / 60)) / 24 };
   });
-  const size = 10.5;
+  const size = 12.5;
   // labels alternate above and below the axis; same-side labels are pushed apart, never overlapped
   for (const side of [0, 1]) {
     const items = ev.filter((_, i) => i % 2 === side).map((q) => {
@@ -159,23 +159,27 @@ function timeline(c: Canvas, ct: Content, y: number, h: number) {
       lim = it.lx - 10;
     }
     if (items.length && items[0].lx < ax0 - 30) warn('timeline labels do not fit on one side');
-    const base = side === 0 ? y + 14 : y + h - 5;
+    const base = side === 0 ? y + 15 : y + h - 5;
     for (const it of items) {
       const rc = REGION[it.q.e.region].col;
-      const ly = side === 0 ? base + 3 : base - 11;
+      const ly = side === 0 ? base + 3 : base - 13;
       const cx = Math.max(it.lx + 4, Math.min(it.lx + it.w - 4, it.q.x));
       c.line(it.q.x, ay, cx, ly, 0.9, rc);
       drawText(c, F.black, it.q.e.t, it.lx, base, size, rc);
       drawText(c, F.black, it.q.e.label, it.lx + it.tw + 4, base, size, COL.ink);
     }
   }
-  for (const q of ev) {
+  // markers sit at their true times; ones that would touch are nudged apart, with a tick at the true time
+  const mx = ev.map((q) => q.x);
+  for (let i = 1; i < mx.length; i++) if (mx[i] < mx[i - 1] + 15) mx[i] = mx[i - 1] + 15;
+  ev.forEach((q, i) => {
     const rc = REGION[q.e.region].col;
+    if (mx[i] !== q.x) c.rect(q.x - 0.8, ay - 9, 1.6, 18, rc);
     if (q.e.story) {
-      c.circle(q.x, ay, 7.6, COL.panel);
-      numDot(c, q.x, ay, 6.6, q.e.story, rc);
-    } else c.circle(q.x, ay, 3.6, rc);
-  }
+      c.circle(mx[i], ay, 7.6, COL.panel);
+      numDot(c, mx[i], ay, 6.6, q.e.story, rc);
+    } else c.circle(mx[i], ay, 3.6, rc);
+  });
 }
 
 function figures(c: Canvas, ct: Content, y: number, h: number) {
@@ -185,11 +189,11 @@ function figures(c: Canvas, ct: Content, y: number, h: number) {
   ct.figures.forEach((f, i) => {
     const x = M + i * bw;
     if (i > 0) c.rect(x - 0.4, y + 4, 0.8, h - 8, COL.rule);
-    const ns = fitOne(F.display, f.n, 42, 28, bw - 16, 'figure', 0, 0.6);
-    drawText(c, F.display, f.n, x + 9, y + 37, ns, COL.red, { bold: 0.6 });
-    c.rect(x + 9, y + 42, 14, 2.4, REGION[f.region].col);
-    const cl = fitLines(F.bold, f.cap, 9, 7.8, bw - 18, 2, 'figure caption');
-    cl.lines.forEach((l, k) => drawText(c, F.bold, l, x + 27, y + 46 + k * 10.2, cl.size, COL.ink));
+    const ns = fitOne(F.display, f.n, 40, 28, bw - 16, 'figure', 0, 0.6);
+    drawText(c, F.display, f.n, x + 9, y + 33, ns, COL.red, { bold: 0.6 });
+    c.rect(x + 9, y + 38, 3, 26, REGION[f.region].col);
+    const cl = fitLines(F.bold, f.cap, 13, 13, bw - 22, 2, 'figure caption');
+    cl.lines.forEach((l, k) => drawText(c, F.bold, l, x + 16, y + 49 + k * 13.6, 13, COL.ink));
   });
 }
 
@@ -233,7 +237,7 @@ function callout(c: Canvas, x: number, y: number, co: Callout) {
 }
 
 function hero(c: Canvas, s: Story, n: number, x: number, y: number, w: number) {
-  const ah = 136;
+  const ah = 128;
   c.clip(x, y, x + w, y + ah);
   heroScene(c, x, y, w, ah, s);
   for (const co of s.callouts ?? []) callout(c, x, y, co);

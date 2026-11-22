@@ -47,7 +47,7 @@ export function heroScene(c: Canvas, x: number, y: number, w: number, h: number,
       for (let i = 0; i < 6; i++) c.line(px0 + 9, py0 + 8 + i * 7, px0 + 38, py0 + 5 + i * 7, 2, hex('#9aa7b5'));
       c.line(px0 - 2, py0 - 2, px0 + 52, py0 + 54, 6, acc);
       c.line(px0 + 52, py0 - 6, px0 - 2, py0 + 58, 6, acc);
-      const cx = x + w - 62, cy = y + 64, r = 48;
+      const cx = x + w - 60, cy = y + 60, r = 45;
       c.circle(cx, cy, r + 5, hex('#0b2238'));
       c.circle(cx, cy, r, WHITE);
       // overtime arc: from 12 round past the hour
