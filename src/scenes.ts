@@ -139,6 +139,54 @@ export function heroScene(c: Canvas, x: number, y: number, w: number, h: number,
       drone(x + 84, y + 66, 0.9);
       break;
     }
+    case 'collapse': {
+      // a five-storey block whose stairwell has fallen from roof to ground; a ladder truck and rescuers on the rubble
+      const sky = hex('#1b2236');
+      c.rect(x, y, w, h, sky);
+      const gy = y + h - 19;
+      const bw = 178, bx = x + w - bw - 8, fh = 16, top = gy - 5 * fh - 4;
+      const gx = bx + 70, gw = 40; // the collapsed stairwell
+      // floodlight beam from the truck into the gap, drawn under the block
+      const lx = gx + gw + 40, ly = gy - 22;
+      c.fill([[lx, ly, gx - 6, top + 8, gx + gw * 0.6, gy]], mix(sky, WHITE, 0.16));
+      c.rect(x, gy, w, h - (gy - y), hex('#0e1220'));
+      const wall = hex('#cfc7b4'), shade = hex('#8f8776'), win = hex('#2a3048'), lit = hex('#ffd25a');
+      c.rect(bx, top, gx - bx, gy - top, wall);
+      c.rect(gx + gw, top, bx + bw - gx - gw, gy - top, wall);
+      c.rect(gx, top + 4, gw, gy - top - 4, hex('#0f1422'));
+      for (let f = 0; f < 5; f++) {
+        const wy = top + 5 + f * fh;
+        for (let q = 0; q < 4; q++) c.rect(bx + 6 + q * 16, wy, 9, 9, (f + q) % 3 === 0 ? lit : win);
+        for (let q = 0; q < 4; q++) c.rect(gx + gw + 6 + q * 15, wy, 9, 9, (2 * f + q) % 5 === 0 ? lit : win);
+        const fy = top + (f + 1) * fh + 2;
+        c.rect(bx, fy - 1, gx - bx, 1.6, shade);
+        c.rect(gx + gw, fy - 1, bx + bw - gx - gw, 1.6, shade);
+        // torn slabs hanging into the gap
+        c.fill([[gx, fy - 2, gx + 15, fy + 7, gx + 15, fy + 10, gx, fy + 2]], shade);
+        c.fill([[gx + gw, fy - 2, gx + gw - 12, fy + 8, gx + gw - 12, fy + 11, gx + gw, fy + 2]], shade);
+      }
+      c.rect(bx - 3, top - 4, gx - bx + 3, 5, shade);
+      c.rect(gx + gw, top - 4, bx + bw - gx - gw + 3, 5, shade);
+      // the rubble pile spilling out of the stairwell
+      const pc = gx + gw / 2;
+      c.fill([[pc - 62, gy, pc - 20, gy - 26, pc + 4, gy - 34, pc + 26, gy - 22, pc + 60, gy]], hex('#8a8272'));
+      for (let i = 0; i < 9; i++) c.fill([rubble(pc - 48 + i * 12, gy, 6 + (i % 3) * 3)], hex(i % 2 ? '#a69d8a' : '#6e675a'));
+      // rescuers in orange on the pile
+      for (const [rx, ry] of [[pc - 30, gy - 18], [pc - 12, gy - 30], [pc + 14, gy - 24]]) {
+        c.rect(rx - 3, ry - 9, 6, 10, hex('#ff8a1e'));
+        c.circle(rx, ry - 12, 3, hex('#ffd9b0'));
+      }
+      // ladder truck with its blue lights, ladder raised into the gap
+      const tx = gx + gw + 18;
+      c.line(tx + 10, gy - 15, gx + 10, top + 26, 4, hex('#ffc83a'));
+      c.rect(tx, gy - 15, 54, 13, hex('#d23a2c'));
+      c.rect(tx + 40, gy - 22, 14, 8, hex('#d23a2c'));
+      c.circle(tx + 12, gy - 1, 4, hex('#111111'));
+      c.circle(tx + 44, gy - 1, 4, hex('#111111'));
+      c.circle(tx + 45, gy - 24, 5, mix(sky, hex('#4aa8ff'), 0.5));
+      c.circle(tx + 45, gy - 24, 2.4, hex('#7cc4ff'));
+      break;
+    }
     default: {
       c.circle(x + w - 78, y + h / 2 + 4, 58, mix(bg, WHITE, 0.1));
       icon(c, s.art, x + w - 78, y + h / 2 + 4, 104, WHITE, acc, bg);

@@ -28,7 +28,7 @@ export type Story = {
 };
 
 export type TimeEvent = { t: string; label: string; short?: string; story?: number; region: Region };
-export type Figure = { n: string; cap: string; region: Region };
+export type Figure = { n: string; cap: string; region: Region; story?: number };
 
 export type Content = {
   dayLine: string; // "SUNDAY 22 NOVEMBER 2026"

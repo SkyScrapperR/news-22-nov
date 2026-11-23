@@ -16,13 +16,13 @@ const M = 14;
 const CW = W - 2 * M;
 
 // a badge that carries its source: "OFFICIAL · IRAN STATE TV"
-function sourceBadge(s: Story): string {
+export function sourceBadge(s: Story): string {
   const parts = s.src.split(' · ');
   const keep = s.badge === 'C' ? parts.slice(0, 2) : parts.slice(0, 1);
   return `${BADGE[s.badge].name} · ${keep.join(' · ').toUpperCase()}`;
 }
 
-function pill(c: Canvas, t: string, x: number, base: number, size: number, col: RGB, align: 'left' | 'right' = 'right'): number {
+export function pill(c: Canvas, t: string, x: number, base: number, size: number, col: RGB, align: 'left' | 'right' = 'right'): number {
   const w = measure(F.black, t, size, 0.4) + size * 1.1;
   const bx = align === 'right' ? x - w : x;
   c.roundRect(bx, base - size * 1.1, w, size * 1.5, 2, col);
@@ -30,7 +30,7 @@ function pill(c: Canvas, t: string, x: number, base: number, size: number, col: 
   return w;
 }
 
-function kickerLine(c: Canvas, s: Story, n: number, x: number, base: number, room: number, size: number) {
+export function kickerLine(c: Canvas, s: Story, n: number, x: number, base: number, room: number, size: number) {
   const rc = REGION[s.region].col;
   const r = size * 0.74;
   numDot(c, x + r, base - size * 0.36, r, n, rc);
@@ -42,7 +42,19 @@ function kickerLine(c: Canvas, s: Story, n: number, x: number, base: number, roo
 export function renderPageB(ct: Content): Canvas {
   const c = new Canvas(W, H, COL.paper);
   const all = [...ct.heroes, ...ct.tiles, ...ct.briefs];
+  headB(c, ct, all);
 
+  // 3. the day in UTC: seven even columns
+  timelineB(c, ct, 130, 50);
+
+  // 4. region strip with counts
+  regionBar(c, all, 186, 13);
+  heroesAndRest(c, ct, all);
+  return c;
+}
+
+// the top line (count, regions, fields, day), the masthead with its red date stamp, and the subtitle
+export function headB(c: Canvas, ct: Content, all: Story[]) {
   // 1. top line: the count, the regions, the fields, the day
   c.rect(0, 0, W, 21, COL.ink);
   const regions = new Set(all.map((s) => s.region)).size;
@@ -72,13 +84,9 @@ export function renderPageB(ct: Content): Canvas {
   const sub = ct.subtitle.join('  ·  ');
   const ss = fitOne(F.serif, sub, 16, 13.5, CW, 'B subtitle');
   drawText(c, F.serif, sub, W / 2, 122, ss, COL.ink, { align: 'center', slant: 0.16 });
+}
 
-  // 3. the day in UTC: seven even columns
-  timelineB(c, ct, 130, 50);
-
-  // 4. region strip with counts
-  regionBar(c, all, 186, 13);
-
+function heroesAndRest(c: Canvas, ct: Content, all: Story[]) {
   // 5. heroes
   const hw = (CW - 2 * 12) / 3;
   ct.heroes.forEach((s, i) => heroB(c, s, i + 1, M + i * (hw + 12), 206, hw));
@@ -102,10 +110,9 @@ export function renderPageB(ct: Content): Canvas {
   // 8. date check, how sure, method
   dateCheck(c, ct, checkTop, 46);
   legend(c, ct, checkTop + 46);
-  return c;
 }
 
-function timelineB(c: Canvas, ct: Content, y: number, h: number) {
+export function timelineB(c: Canvas, ct: Content, y: number, h: number) {
   c.rect(M, y, CW, h, COL.panel);
   const lw = 74;
   c.rect(M, y, lw, h, COL.ink);
@@ -197,7 +204,7 @@ function tileB(c: Canvas, s: Story, n: number, x: number, y: number, w: number) 
   drawText(c, F.bold, src, x, sb + 12.5, fitOne(F.bold, src, 9, 8, w, 'B tile source'), COL.ink);
 }
 
-function mapLegend(c: Canvas, all: Story[], x: number, y: number, w: number) {
+export function mapLegend(c: Canvas, all: Story[], x: number, y: number, w: number) {
   const counts = REGION_ORDER.map((r) => ({ r, n: all.filter((s) => s.region === r).length })).filter((q) => q.n > 0);
   const per = Math.ceil(counts.length / 3);
   const cw = w / per;
@@ -209,7 +216,7 @@ function mapLegend(c: Canvas, all: Story[], x: number, y: number, w: number) {
   });
 }
 
-function alsoB(c: Canvas, list: Story[], first: number, x0: number, y0: number, x1: number, y1: number) {
+export function alsoB(c: Canvas, list: Story[], first: number, x0: number, y0: number, x1: number, y1: number) {
   drawText(c, F.black, `ALSO ON SUNDAY · ${list.length} MORE STORIES`, x0, y0 + 10, 10, COL.ink, { tracking: 1 });
   const cols = 2;
   const gap = 18;

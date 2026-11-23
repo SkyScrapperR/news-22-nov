@@ -1,5 +1,5 @@
 // The day's stories: Sunday 22 November 2026, ranked by consequence. Every item happened, or was first
-// reported, on that day; times are UTC. Repeated figures (at least 3 dead, 186 drones, 1.95%, 720-9, 12 cars, 5.4) match
+// reported, on that day; times are UTC. Repeated figures (at least 7 dead, 186 drones, 1.95%, 400m, 720-9, 12 cars, 5.4) match
 // wherever they appear. Timeline story numbers follow the order below (heroes 1-3, tiles 4-13, briefs 14-35).
 import type { Content } from './types.ts';
 
@@ -9,7 +9,7 @@ export const content: Content = {
   stamp: ['SUN', '22', 'NOV'],
   dayOfYear: 'DAY 326 OF 2026',
   fields: 10, // conflict, climate, politics, sport, markets, science & space, culture, health, crime, education
-  subtitle: ['COP31 climate talks collapse without a deal', 'Drone strike kills at least 3 near Kyiv', 'Iran begins rolling blackouts'],
+  subtitle: ['Drone strike kills at least 7 near Kyiv', 'COP31 climate talks collapse without a deal', 'Iran begins rolling blackouts'],
   timeline: [
     { t: '≈00:00', label: 'Drones hit Khartoum', short: 'Khartoum drones', story: 4, region: 'AF' },
     { t: '04:00', label: 'Vegas GP starts', short: 'Vegas GP starts', story: 7, region: 'AM' },
@@ -19,15 +19,27 @@ export const content: Content = {
     { t: '16:30', label: 'Liverpool v Man Utd', short: 'Liverpool kick-off', story: 19, region: 'EU' },
     { t: '21:35', label: 'Peru M5.4 quake', short: 'Peru quake', story: 13, region: 'AM' },
   ],
+  // the day in numbers: none of these is also a tile's key figure
   figures: [
-    { n: '0', cap: 'deals as COP31 collapses', region: 'GL' },
-    { n: '3+', cap: 'killed in Dymer strike, Reuters says', region: 'EU' },
-    { n: '186', cap: 'drones fired at Ukraine', region: 'EU' },
-    { n: '−1.95%', cap: 'Saudi stocks on Sunday', region: 'ME' },
-    { n: '720-9', cap: 'India declare in Wellington', region: 'OC' },
-    { n: '12', cap: 'cars burned, West Bank', region: 'ME' },
+    { n: '7+', cap: 'dead in Dymer strike (Kyiv Independent)', region: 'EU', story: 1 },
+    { n: '186', cap: 'drones Russia fired at Ukraine overnight', region: 'EU', story: 1 },
+    { n: '0', cap: 'deals adopted as COP31 talks collapse', region: 'GL', story: 2 },
+    { n: '−1.95%', cap: 'Saudi stock index on Sunday', region: 'ME', story: 15 },
+    { n: '400m', cap: 'captagon pills burned in Syria', region: 'ME', story: 17 },
   ],
   heroes: [
+    {
+      place: 'DYMER, KYIV', cat: 'WAR', region: 'EU', badge: 'C',
+      banner: 'UKRAINE: BLOCK HIT', chip: 'At least 7 dead · 6 hurt · several trapped',
+      caption: 'Five-storey block: a stairwell fell from top to ground',
+      callouts: [
+        { text: 'COLLAPSED', x: 8, y: 60, px: 226, py: 52 },
+        { text: 'RESCUERS DIG', x: 8, y: 82, px: 196, py: 98 },
+      ],
+      head: 'Russian drone strike on flats near Kyiv kills at least 7',
+      sum: 'Several still trapped; Kyiv says 161 of 186 drones downed.',
+      src: 'Kyiv Independent · Reuters · Ukrinform', lon: 30.3, lat: 50.79, art: 'collapse',
+    },
     {
       place: 'ANTALYA, TÜRKIYE', cat: 'CLIMATE', region: 'GL', badge: 'C',
       banner: 'COP31: NO DEAL', chip: 'Deal not adopted after two days of overtime',
@@ -37,20 +49,8 @@ export const content: Content = {
         { text: '2 DAYS OVERTIME', x: 112, y: 92, px: 282, py: 70 },
       ],
       head: 'COP31 climate talks collapse without a deal',
-      sum: 'The EU and others rejected a final text that omitted fossil fuels; president Murat Kurum said the deal was not adopted.',
+      sum: 'The EU and others rejected a text that left out fossil fuels.',
       src: 'Reuters · DW · France 24', lon: 30.71, lat: 36.9, art: 'cop',
-    },
-    {
-      place: 'DYMER, KYIV REGION', cat: 'WAR', region: 'EU', badge: 'C',
-      banner: 'UKRAINE: BLOCK HIT', chip: 'At least 3 dead · 4 hurt · ~10 trapped',
-      caption: 'Five-storey block, Sunday morning',
-      callouts: [
-        { text: 'PART COLLAPSED', x: 112, y: 56, px: 238, py: 68 },
-        { text: 'DRONE STRIKE', x: 8, y: 86, px: 170, py: 100 },
-      ],
-      head: 'Russian drone strike on flats near Kyiv kills at least 3',
-      sum: 'Reuters: about 10 may still be trapped in Dymer; Ukraine says it downed 161 of 186 drones overnight.',
-      src: 'Reuters · Ukrinform · EFE', lon: 30.3, lat: 50.79, art: 'drones',
     },
     {
       place: 'TEHRAN, IRAN', cat: 'WAR · ENERGY', region: 'ME', badge: 'O',
@@ -60,7 +60,7 @@ export const content: Content = {
         { text: 'LIGHTS OUT', x: 150, y: 64, px: 196, py: 100 },
       ],
       head: 'Iran begins rolling power cuts as war hits its energy grid',
-      sum: 'The national grid chief told state TV that outages start Sunday; the president blames US and Israeli strikes on energy sites.',
+      sum: 'Grid chief: two-hour cuts; president blames US, Israeli strikes.',
       src: 'Iran state TV · Reuters · AFP', lon: 51.39, lat: 35.69, art: 'grid',
     },
   ],
@@ -101,7 +101,7 @@ export const content: Content = {
       src: 'Launch Library 2', lon: -120.6, lat: 34.74, art: 'rocket', vals: { bg: '#101c3a', acc: '#ff9a3c', tag: 'LAUNCH LOG' },
     },
     {
-      place: 'TAIPEI', cat: 'FILM', region: 'EA', badge: 'R', banner: 'TAIPEI: GOLDEN HORSE', fact: '2', unit: 'OF 9 NODS WON',
+      place: 'TAIPEI', cat: 'FILM', region: 'EA', badge: 'O', banner: 'TAIPEI: GOLDEN HORSE', fact: '2', unit: 'OF 9 NODS WON',
       head: 'We Are Born Good wins Golden Horse best film', sum: 'CNA: Hong Kong drama also wins screenplay.',
       src: 'CNA', lon: 121.56, lat: 25.04, art: 'trophy', vals: { bg: '#3a2a10', acc: '#e8b62a', tag: 'CNA' },
     },
@@ -132,7 +132,7 @@ export const content: Content = {
     { place: 'New Delhi', cat: '', region: 'SA', badge: 'C', head: 'Nepal PM visits India', src: 'HT · EFE', lon: 77.21, lat: 28.61, art: '' },
     { place: 'Islamabad', cat: '', region: 'SA', badge: 'O', head: 'Portugal FM arrives', src: 'Pakistan FO', lon: 73.05, lat: 33.68, art: '' },
     { place: 'Hong Kong', cat: '', region: 'EA', badge: 'O', head: 'Election panel votes', src: 'gov.hk', lon: 114.17, lat: 22.3, art: '' },
-    { place: 'Seoul', cat: '', region: 'EA', badge: 'O', head: 'CYBER transfers halted', src: 'Cointelegraph', lon: 127.03, lat: 37.5, art: '' },
+    { place: 'Seoul', cat: '', region: 'EA', badge: 'O', head: 'Cyber token transfers halted', src: 'Cointelegraph', lon: 127.03, lat: 37.5, art: '' },
     { place: 'Hong Kong', cat: '', region: 'EA', badge: 'O', head: 'HK$7m of meth seized', src: 'HK Customs', lon: 114.2, lat: 22.35, art: '' },
     { place: 'Indonesia', cat: '', region: 'SE', badge: 'O', head: 'Rain alert, 8 provinces', src: 'BMKG', lon: 110.4, lat: -7.0, art: '' },
     { place: 'Canberra', cat: '', region: 'OC', badge: 'C', head: 'Marles rejects US report', src: 'ABC · ST', lon: 149.13, lat: -35.28, art: '' },
@@ -141,8 +141,8 @@ export const content: Content = {
     { place: 'US', cat: '', region: 'AM', badge: 'R', head: 'Anthropic IPO irked banks', src: 'Reuters', lon: -74.0, lat: 40.71, art: '' },
   ],
   leftOut: 'Baltic ship strike, Copa Sudamericana final, Banten fire, NWSL final, BepiColombo at Mercury (all Sat); Semeru eruption (18:51 UTC Sat); Kraken $17k bitcoin flash (Fri–Sat); El Chapo’s son Isidro held (Fri); Indonesia joined IARC (24 Sep)',
-  notYet: 'Wellington Test, day 5 (India v New Zealand)',
-  corrections: 'Dymer toll rose from 2 to at least 3 (Reuters, 16:07 UTC); about 10 to 15 may be trapped',
-  outlets: 'Reuters, AFP, EFE, Al Jazeera, BBC, DW, France 24, Ukrinform, CNA, Arab News, ABC, Dawn, HT, USGS, ATP, gov.hk.',
+  notYet: 'NZ v India Test, day 5',
+  corrections: 'Dymer toll rose through the day to at least 7 (Kyiv Independent, by 24:00 UTC); it rose further after midnight UTC.',
+  outlets: 'Reuters, Kyiv Independent, AFP, EFE, Al Jazeera, BBC, DW, France 24, Ukrinform, CNA, Arab News, ABC, Dawn, HT, USGS, ATP.',
   method: 'Method: 35 stories, each dated 22 Nov 2026 from its outlet’s own report, ranked by consequence; times UTC.',
 };

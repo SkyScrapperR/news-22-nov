@@ -3,12 +3,12 @@
 
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { renderPageB } from './src/pageB.ts';
+import { renderPageC } from './src/pageC.ts';
 import { content } from './src/content.ts';
 import { encodeIndexedPNG } from './src/png.ts';
 import { overflowWarnings } from './src/text.ts';
 
-const canvas = renderPageB(content);
+const canvas = renderPageC(content);
 const png = encodeIndexedPNG(canvas.px, canvas.w, canvas.h, 112);
 const out = join(process.env.MAKEFUN_OUTPUT_DIR ?? '/output', 'entry.png');
 writeFileSync(out, png);
