@@ -27,7 +27,7 @@ export type Story = {
   vals?: Record<string, number | string>;
 };
 
-export type TimeEvent = { t: string; label: string; story?: number; region: Region };
+export type TimeEvent = { t: string; label: string; short?: string; story?: number; region: Region };
 export type Figure = { n: string; cap: string; region: Region };
 
 export type Content = {
@@ -35,6 +35,7 @@ export type Content = {
   masthead: string; // "Sunday 22 November 2026"
   stamp: [string, string, string]; // ["SUN", "22", "NOV"]
   dayOfYear: string; // "DAY 326 OF 2026"
+  fields?: number; // how many fields of news the stories cover
   subtitle: string[];
   timeline: TimeEvent[];
   figures: Figure[];

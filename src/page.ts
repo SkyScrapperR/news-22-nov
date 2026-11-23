@@ -14,7 +14,7 @@ const H = 1024;
 const M = 14; // outer margin
 const CW = W - 2 * M; // content width 996
 
-function badge(c: Canvas, x: number, base: number, b: Badge, size: number, align: 'left' | 'right' = 'right'): number {
+export function badge(c: Canvas, x: number, base: number, b: Badge, size: number, align: 'left' | 'right' = 'right'): number {
   const t = BADGE[b].name;
   const tw = measure(F.black, t, size, 0.4);
   const bw = tw + size * 0.9;
@@ -25,7 +25,7 @@ function badge(c: Canvas, x: number, base: number, b: Badge, size: number, align
   return bw;
 }
 
-function numDot(c: Canvas, cx: number, cy: number, r: number, n: number, col: RGB) {
+export function numDot(c: Canvas, cx: number, cy: number, r: number, n: number, col: RGB) {
   c.circle(cx, cy, r, col);
   const s = r * (n >= 10 ? 1.15 : 1.35);
   drawText(c, F.black, String(n), cx, cy + s * 0.36, s, WHITE, { align: 'center' });
@@ -183,7 +183,7 @@ function timeline(c: Canvas, ct: Content, y: number, h: number) {
   });
 }
 
-function figures(c: Canvas, ct: Content, y: number, h: number) {
+export function figures(c: Canvas, ct: Content, y: number, h: number) {
   const n = ct.figures.length;
   const bw = CW / n;
   c.hline(M, W - M, y + h, 0.8, COL.rule);
@@ -198,7 +198,7 @@ function figures(c: Canvas, ct: Content, y: number, h: number) {
   });
 }
 
-function regionBar(c: Canvas, all: Story[], y: number, h: number) {
+export function regionBar(c: Canvas, all: Story[], y: number, h: number) {
   const counts = REGION_ORDER.map((r) => ({ r, n: all.filter((s) => s.region === r).length })).filter((q) => q.n > 0);
   const gaps = (counts.length - 1) * 2;
   const minW = 76;
@@ -219,7 +219,7 @@ function regionBar(c: Canvas, all: Story[], y: number, h: number) {
 }
 
 // ---------------------------------------------------------------------------------------------------------
-function callout(c: Canvas, x: number, y: number, co: Callout) {
+export function callout(c: Canvas, x: number, y: number, co: Callout) {
   const size = 10.5;
   const bw = measure(F.black, co.text, size, 0.3) + 10;
   const bh = 16;
@@ -332,7 +332,7 @@ function frame(c: Canvas, x: number, y: number, w: number, h: number, t: number,
   c.fill([[x, y, x + w, y, x + w, y + h, x, y + h], [x + t, y + t, x + t, y + h - t, x + w - t, y + h - t, x + w - t, y + t]], col);
 }
 
-function map(c: Canvas, all: Story[], x: number, y: number, w: number, h: number) {
+export function map(c: Canvas, all: Story[], x: number, y: number, w: number, h: number) {
   drawText(c, F.black, 'WHERE IT HAPPENED', x, y + 9, 9.2, COL.ink, { tracking: 1 });
   const top = y + 13;
   const mh = h - 13 - 11;
@@ -421,7 +421,7 @@ function briefs(c: Canvas, list: Story[], first: number, x0: number, y0: number,
   });
 }
 
-function dateCheck(c: Canvas, ct: Content, y: number, h: number) {
+export function dateCheck(c: Canvas, ct: Content, y: number, h: number) {
   const x = M;
   frame(c, x, y, CW, h, 1.8, COL.red);
   drawText(c, F.black, 'DATE CHECK', x + 10, y + 19, 11.5, COL.red, { tracking: 0.8 });
@@ -445,7 +445,7 @@ function dateCheck(c: Canvas, ct: Content, y: number, h: number) {
   if (tx - 18 > right) warn('date check last line overflows');
 }
 
-function legend(c: Canvas, ct: Content, y: number) {
+export function legend(c: Canvas, ct: Content, y: number) {
   const base = y + 15;
   let x = M;
   x += drawText(c, F.black, 'HOW SURE', x, base, 11, COL.ink, { tracking: 0.8 }) + 10;

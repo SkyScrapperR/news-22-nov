@@ -8,15 +8,16 @@ export const content: Content = {
   masthead: 'Sunday 22 November 2026',
   stamp: ['SUN', '22', 'NOV'],
   dayOfYear: 'DAY 326 OF 2026',
+  fields: 10, // conflict, climate, politics, sport, markets, science & space, culture, health, crime, education
   subtitle: ['COP31 climate talks collapse without a deal', 'Drone strike kills at least 3 near Kyiv', 'Iran begins rolling blackouts'],
   timeline: [
-    { t: '≈00:00', label: 'Drones hit Khartoum', story: 4, region: 'AF' },
-    { t: '04:00', label: 'Vegas GP starts', story: 7, region: 'AM' },
-    { t: '12:23', label: 'Falcon 9 lifts off', story: 10, region: 'AM' },
-    { t: '13:00', label: 'MotoGP decider', story: 6, region: 'EU' },
-    { t: '≈15:50', label: 'Golden Horse top prize', story: 11, region: 'EA' },
-    { t: '16:30', label: 'Liverpool v Man Utd', story: 19, region: 'EU' },
-    { t: '21:35', label: 'Peru M5.4 quake', story: 13, region: 'AM' },
+    { t: '≈00:00', label: 'Drones hit Khartoum', short: 'Khartoum drones', story: 4, region: 'AF' },
+    { t: '04:00', label: 'Vegas GP starts', short: 'Vegas GP starts', story: 7, region: 'AM' },
+    { t: '12:23', label: 'Falcon 9 lifts off', short: 'Falcon 9 launch', story: 10, region: 'AM' },
+    { t: '13:00', label: 'MotoGP decider', short: 'MotoGP decider', story: 6, region: 'EU' },
+    { t: '≈15:50', label: 'Golden Horse top prize', short: 'Golden Horse prize', story: 11, region: 'EA' },
+    { t: '16:30', label: 'Liverpool v Man Utd', short: 'Liverpool kick-off', story: 19, region: 'EU' },
+    { t: '21:35', label: 'Peru M5.4 quake', short: 'Peru quake', story: 13, region: 'AM' },
   ],
   figures: [
     { n: '0', cap: 'deals as COP31 collapses', region: 'GL' },
