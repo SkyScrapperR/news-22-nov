@@ -24,6 +24,9 @@ export type Story = {
   fact?: string; // tile: the huge figure
   unit?: string; // tile: its unit label, e.g. "DEAD"
   art: string;
+  field?: string; // the field of news, one word, e.g. "War"; the top line counts the distinct ones
+  label?: string; // E: the one label inside the art (heroes) or the key figure on the art (tiles)
+  lede?: string; // E: a fuller two-line hero summary with figures
   vals?: Record<string, number | string>;
 };
 
