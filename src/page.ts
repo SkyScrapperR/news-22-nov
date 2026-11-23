@@ -108,15 +108,16 @@ export function renderPage(ct: Content): Canvas {
 
   // 11. rule, 12. map, 13. briefs
   c.hline(M, W - M, tilesEnd + 2, 1.6, COL.ink);
-  const checkTop = 958;
+  const checkTop = 940;
   const top = tilesEnd + 7;
-  const bottom = checkTop - 6;
-  map(c, all, M, top, 352, bottom - top);
-  briefs(c, ct.briefs, 4 + ct.tiles.length, M + 352 + 16, top, W - M, bottom);
+  const bottom = checkTop - 5;
+  const mapW = 300;
+  map(c, all, M, top, mapW, bottom - top);
+  briefs(c, ct.briefs, 4 + ct.tiles.length, M + mapW + 14, top, W - M, bottom);
 
   // 14. date check, 15. how sure, 16. footer
-  dateCheck(c, ct, checkTop, 34);
-  legend(c, ct, checkTop + 34);
+  dateCheck(c, ct, checkTop, 46);
+  legend(c, ct, checkTop + 46);
   return c;
 }
 
@@ -395,72 +396,71 @@ function map(c: Canvas, all: Story[], x: number, y: number, w: number, h: number
 function briefs(c: Canvas, list: Story[], first: number, x0: number, y0: number, x1: number, y1: number) {
   drawText(c, F.black, `ALSO TODAY · ${list.length} MORE STORIES`, x0, y0 + 9, 9.2, COL.ink, { tracking: 1 });
   const cols = 3;
-  const gap = 14;
+  const gap = 12;
   const colW = (x1 - x0 - gap * (cols - 1)) / cols;
   const rows = Math.ceil(list.length / cols);
-  const top = y0 + 14;
+  const top = y0 + 13;
   const pitch = (y1 - top) / rows;
+  const size = 12;
   list.forEach((s, i) => {
     const col = Math.floor(i / rows);
     const row = i % rows;
     const x = x0 + col * (colW + gap);
-    const base = top + row * pitch + pitch * 0.5 + 3.2;
+    const base = top + row * pitch + pitch * 0.5 + 4.2;
     if (row > 0) c.hline(x, x + colW, top + row * pitch, 0.5, COL.rule);
     const rc = REGION[s.region].col;
-    drawText(c, F.black, String(first + i), x + 12, base, 8.8, rc, { align: 'right' });
-    let tx = x + 16;
-    tx += drawText(c, F.black, s.place, tx, base, 8.8, COL.ink) + 4;
-    const bx = x + colW - 9;
-    const room = bx - 4 - tx;
-    const hs = fitOne(F.reg, s.head, 8.8, 7.6, room, 'brief');
+    drawText(c, F.black, String(first + i), x + 16, base, size, rc, { align: 'right' });
+    let tx = x + 20;
+    tx += drawText(c, F.black, s.place, tx, base, size, COL.ink) + 4;
+    const bx = x + colW - 11;
+    const room = bx - 3 - tx;
+    const hs = fitOne(F.reg, s.head, size, size, room, 'brief');
     drawText(c, F.reg, s.head, tx, base, hs, COL.ink);
-    c.roundRect(bx, base - 7.6, 9, 9, 1.5, BADGE[s.badge].col);
-    drawText(c, F.black, BADGE[s.badge].name[0], bx + 4.5, base - 0.8, 6.8, WHITE, { align: 'center' });
+    c.roundRect(bx, base - 9.4, 11, 11, 1.5, BADGE[s.badge].col);
+    drawText(c, F.black, BADGE[s.badge].name[0], bx + 5.5, base - 0.6, 8.4, WHITE, { align: 'center' });
   });
 }
 
 function dateCheck(c: Canvas, ct: Content, y: number, h: number) {
   const x = M;
   frame(c, x, y, CW, h, 1.8, COL.red);
-  drawText(c, F.black, 'DATE CHECK', x + 10, y + 15, 9.8, COL.red, { tracking: 0.8 });
-  drawText(c, F.bold, 'times in UTC', x + 10, y + 27, 7.8, COL.muted);
-  const kx = x + 104;
-  const room = x + CW - 10;
-  const rowsOf = (key: string, val: string) => {
-    const kw = measure(F.black, key, 8.4) + 5;
-    const lines = fitLines(F.reg, val, 8.4, 7.6, room - kx - kw, 2, 'date check');
-    return { key, kw, lines };
-  };
-  const a = rowsOf('Left out (other day):', ct.leftOut);
-  const b = rowsOf('Not yet (future):', ct.notYet);
-  const total = a.lines.lines.length + b.lines.lines.length;
-  const lh = total <= 2 ? 12.5 : total === 3 ? 9.6 : 7.8;
-  if (total > 3) warn('date check needs more than 3 lines');
-  let base = y + (h - (total - 1) * lh) / 2 + 3;
-  for (const r of [a, b]) {
-    drawText(c, F.black, r.key, kx, base, 8.4, COL.ink);
-    r.lines.lines.forEach((l, i) => drawText(c, F.reg, l, kx + r.kw, base + i * lh, r.lines.size, COL.ink));
-    base += r.lines.lines.length * lh;
+  drawText(c, F.black, 'DATE CHECK', x + 10, y + 19, 11.5, COL.red, { tracking: 0.8 });
+  drawText(c, F.bold, 'times in UTC', x + 10, y + 34, 11, COL.muted);
+  const size = 11;
+  const lh = 13;
+  const kx = x + 112;
+  const right = x + CW - 10;
+  const lk = 'Left out (other day):';
+  const lkw = measure(F.black, lk, size) + 5;
+  const lines = fitLines(F.reg, ct.leftOut, size, size, right - kx - lkw, 2, 'date check');
+  let base = y + 15;
+  drawText(c, F.black, lk, kx, base, size, COL.ink);
+  lines.lines.forEach((l, i) => drawText(c, F.reg, l, kx + lkw, base + i * lh, size, COL.ink));
+  base += lines.lines.length * lh;
+  let tx = kx;
+  for (const [k, v] of [['Not yet (future):', ct.notYet], ['Updated:', ct.corrections]]) {
+    tx += drawText(c, F.black, k, tx, base, size, COL.ink) + 5;
+    tx += drawText(c, F.reg, v, tx, base, size, COL.ink) + 18;
   }
+  if (tx - 18 > right) warn('date check last line overflows');
 }
 
 function legend(c: Canvas, ct: Content, y: number) {
-  const base = y + 13;
+  const base = y + 15;
   let x = M;
-  x += drawText(c, F.black, 'HOW SURE', x, base, 8.2, COL.ink, { tracking: 0.8 }) + 8;
+  x += drawText(c, F.black, 'HOW SURE', x, base, 11, COL.ink, { tracking: 0.8 }) + 10;
   for (const k of ['C', 'O', 'R', 'K'] as Badge[]) {
-    x += badge(c, x, base, k, 6.6, 'left') + 4;
-    x += drawText(c, F.reg, BADGE[k].means, x, base, 8, COL.soft) + 10;
+    x += badge(c, x, base, k, 8.6, 'left') + 5;
+    x += drawText(c, F.reg, BADGE[k].means, x, base, 11, COL.soft) + 14;
   }
-  const cs = fitOne(F.reg, ct.corrections, 8, 7, W - M - x - 4, 'corrections');
-  drawText(c, F.reg, ct.corrections, W - M, base, cs, COL.soft, { align: 'right' });
-  c.hline(M, W - M, base + 4.5, 0.6, COL.rule);
-  const fb = base + 14;
+  if (x - 14 > W - M) warn('legend overflows');
+  c.hline(M, W - M, base + 5, 0.6, COL.rule);
+  const fb = base + 16;
   const note = 'Original drawings · DM Serif & Lato (OFL) · map: Natural Earth';
-  const nw = measure(F.reg, note, 7.4);
-  drawText(c, F.reg, note, W - M, fb, 7.4, COL.muted, { align: 'right' });
+  const nw = measure(F.reg, note, 7.6);
+  drawText(c, F.reg, note, W - M, fb, 7.6, COL.muted, { align: 'right' });
   const line = `${ct.method} Sources: ${ct.outlets}`;
-  const fs = fitOne(F.reg, line, 7.8, 6.6, CW - nw - 12, 'footer');
+  const fs = fitOne(F.reg, line, 8, 7, CW - nw - 12, 'footer');
   drawText(c, F.reg, line, M, fb, fs, COL.muted);
 }
 
